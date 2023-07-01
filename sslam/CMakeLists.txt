@@ -1,16 +1,28 @@
-cmake_minimum_required(VERSION 3.8)
-project(sslam)
+cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
+project(sslam LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+# Code Dependencies
+include_directories("src/" "include/")
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+add_executable(localisation src/localisation.cpp)
+
+ament_target_dependencies(localisation rclcpp)
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
