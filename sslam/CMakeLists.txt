@@ -16,13 +16,23 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(pcl_ros REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
 add_executable(localisation src/localisation.cpp)
 
-ament_target_dependencies(localisation rclcpp)
+ament_target_dependencies(localisation rclcpp sensor_msgs pcl_ros tf2)
+
+install(TARGETS
+    localisation
+    DESTINATION lib/${PROJECT_NAME}
+)
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
