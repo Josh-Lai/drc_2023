@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <iostream>
+#include <cassert>
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -41,6 +42,10 @@ class Localisation : public rclcpp::Node {
          */
 
         std::vector<float> generate_hypothesis_space(std::vector<float> min, std::vector<float> delta, std::vector<float> max);
+
+        void construct_space(std::vector<float> &buffer, std::vector<float> &entry, std::vector<float> &min, std::vector<float> &max, std::vector<float> &delta, int depth); 
+       
+
 
     private:
         // Point cloud to identify localisation
