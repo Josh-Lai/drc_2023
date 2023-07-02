@@ -14,23 +14,48 @@ Localisation::Localisation() : rclcpp::Node("localisation"){
     hypMsg += std::to_string(poseSpace.size());
 
     RCLCPP_INFO(this->get_logger(), hypMsg.c_str());
-   // minBound << -0.5, -0.5, -0.5, -5, -5, -5 << std::endl;
     return;
 }
 
-std::vector<float> get_local_transform(sensor_msgs::msg::PointCloud2 newPointCloud) {
+std::vector<float> Localisation::get_local_transform(sensor_msgs::msg::PointCloud2 newPointCloud) {
     // Compare the last point cloud with the previous, maximise the evidence between the two
-
-    //store the previous PointCloud in a K-D Tree
-    //Get the hypothesis grid based on the 
     
-    //For each Hypothesis:
-    //For each point in newPointCloud * 
-    //  Ej = evidence_to_closest_point
-    //  E += 
-    //
+    std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> newPc, oldPc;
+    
+    //Convert the point cloud for PCL
+
+    pointcloud2_to_pclpointcloud(newPointCloud, newPc);
+    pointcloud2_to_pclpointcloud(lastPointCloud_, oldPc);
+    //Check if the oldPointCloud is empty, if so then cant do anything here
+    
+    if( oldPc->size() == 0) {
+        lastPointCloud_ = newPointCloud;
+        return std::vector<float>(6,0);
+    }
+    
+    //Otherwise, store in a KD-tree for evidence computation
+    
+    pcl::KdTree<pcl::PointXYZ>::Ptr kdOldPc(new pcl::KdTreeFLANN<pcl::PointXYZ>);
+    kdOldPc->setInputCloud(oldPc);
+
+    //Run the Evidence computation on the old and new point cloud
+    
+    
+    //for each Hypothesis
+    //transform the point cloud based on Hypothesis
+    //for each point
+    //Evaluate closest evidence
+    //select maximum pose
     return std::vector<float>(6);
 
+}
+
+void Localisation::pointcloud2_to_pclpointcloud(sensor_msgs::msg::PointCloud2 &src, std::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> &out) {
+    pcl::PCLPointCloud2 pcl_pc2;
+    pcl_conversions::toPCL(src, pcl_pc2);
+    out = std::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
+    pcl::fromPCLPointCloud2(pcl_pc2, *out);
+    return;
 }
 
 std::vector<float> Localisation::generate_hypothesis_space(std::vector<float> min, std::vector<float> delta, std::vector<float> max){ 

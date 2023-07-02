@@ -43,10 +43,14 @@ class Localisation : public rclcpp::Node {
 
         std::vector<float> generate_hypothesis_space(std::vector<float> min, std::vector<float> delta, std::vector<float> max);
 
+        /**
+         *  @brief constructs a flattened vector ranging from min to max in delta increments
+         */
+
         void construct_space(std::vector<float> &buffer, std::vector<float> &entry, std::vector<float> &min, std::vector<float> &max, std::vector<float> &delta, int depth); 
        
 
-
+        void pointcloud2_to_pclpointcloud(sensor_msgs::msg::PointCloud2 &src, pcl::PointCloud<pcl::PointXYZ>::Ptr &out);
     private:
         // Point cloud to identify localisation
         sensor_msgs::msg::PointCloud2 lastPointCloud_; 
