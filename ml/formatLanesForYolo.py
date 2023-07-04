@@ -77,7 +77,7 @@ def check_segmentation(image):
 			break
 	
 	yellow_data = contour_to_string(yellow_lane, 0, image.shape[1], image.shape[0])
-	blue_data = contour_to_string(blue_lane, 1, image.shape[1], image.shape[1])
+	blue_data = contour_to_string(blue_lane, 1, image.shape[1], image.shape[0])
 
 	return f"{yellow_data}\n{blue_data}"
 	
