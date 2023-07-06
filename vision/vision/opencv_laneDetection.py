@@ -28,7 +28,7 @@ class Detection(Node):
         self.i+=1
         cv_image = self.bridge.imgmsg_to_cv2(msg)
         self.get_logger().info('%d Images Received' % self.i)
-        cv_image = cv2.cvtColor(src, cv2.COLOR_RGB2BGR )
+        cv_image = cv2.cvtColor(cv_image, cv2.COLOR_RGB2BGR )
         cv2.imshow("image_raw", cv_image)
         cv2.waitKey(1)
 

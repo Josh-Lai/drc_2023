@@ -7,11 +7,13 @@ from launch_ros.actions import Node
 def generate_launch_description():
     ld = LaunchDescription()
 
+    cv_detection_config_file = os.path.join(
+        get_package_share_directory("vision"), "config", "params.yaml"
+    )
     cv_detection = Node(
         package="vision",
         executable="laneDetection",
-        parameters=[{"image_topic": "camera/color/image_rawr"}]
-        # parameters=[{"image_topic": "camera2/image_raw"}]
+        parameters=[cv_detection_config_file],
     )
     # publisher_node = Node(
     #     package="vision",
