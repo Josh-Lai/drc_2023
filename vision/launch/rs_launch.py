@@ -23,8 +23,8 @@ configurable_parameters = [{'name': 'camera_name',                  'default': '
                            {'name': 'depth_module.profile',         'default': '424,240,15', 'description': 'depth module profile'},                           
                            {'name': 'enable_depth',                 'default': 'true', 'description': 'enable depth stream'},
                            {'name': 'rgb_camera.profile',           'default': '424,240,15', 'description': 'color image width'},
-                           {'name': 'depth_qos',           'default': 'SENSOR_DATA', 'description': ''},
-                           {'name': 'color_qos',           'default': 'SENSOR_DATA', 'description': ''},
+#                           {'name': 'depth_qos',           'default': 'SENSOR_DATA', 'description': ''},
+#                           {'name': 'color_qos',           'default': 'SENSOR_DATA', 'description': ''},
                            {'name': 'rgb_camera.enable_auto_exposure', 'default': 'false', 'description': 'enable/disable auto exposure for color image'},
                            {'name': 'enable_color',                 'default': 'true', 'description': 'enable color stream'},
                            {'name': 'enable_infra1',                'default': 'false', 'description': 'enable infra1 stream'},
@@ -57,12 +57,13 @@ configurable_parameters = [{'name': 'camera_name',                  'default': '
                            {'name': 'diagnostics_period',           'default': '0.0', 'description': 'Rate of publishing diagnostics. 0=Disabled'},
                            {'name': 'decimation_filter.enable',     'default': 'false', 'description': 'Rate of publishing static_tf'},
                            {'name': 'rosbag_filename',              'default': "''", 'description': 'A realsense bagfile to run from as a device'},
-                           {'name': 'hdr_merge',                    'default': 'false', 'description': ''},
+                           {'name': 'hdr_merge',                    'default': 'true', 'description': ''},
                            {'name': 'depth_module.exposure.1',     'default': '7500', 'description': 'Initial value for hdr_merge filter'},
                            {'name': 'depth_module.gain.1',         'default': '16', 'description': 'Initial value for hdr_merge filter'},
                            {'name': 'depth_module.exposure.2',     'default': '1', 'description': 'Initial value for hdr_merge filter'},
                            {'name': 'depth_module.gain.2',         'default': '16', 'description': 'Initial value for hdr_merge filter'},
-                           {'name': 'depth_module.enable_auto_exposure', 'default': 'true', 'description': 'enable/disable auto exposure for depth image'},
+                           {'name': 'depth_module.enable_auto_exposure', 'default': 'false', 'description': 'enable/disable auto exposure for depth image'},
+                           {'name': 'depth_module.exposure',     'default': '1000', 'description': 'Initial value for hdr_merge filter'},
                            {'name': 'wait_for_device_timeout',      'default': '-1.', 'description': 'Timeout for waiting for device to connect (Seconds)'},
                            {'name': 'reconnect_timeout',            'default': '6.', 'description': 'Timeout(seconds) between consequtive reconnection attempts'},
                           ]
@@ -120,16 +121,10 @@ def generate_launch_description():
                 emulate_tty=True,
                 ),
             launch_ros.actions.Node(
-                condition=IfCondition(PythonExpression([LaunchConfiguration('config_file'), " != ''"])),
-                package='realsense2_camera',
-                namespace=LaunchConfiguration("camera_name"),
-                name=LaunchConfiguration("camera_name"),
-                executable='realsense2_camera_node',
-                parameters=[set_configurable_parameters(configurable_parameters)
-                            , PythonExpression([LaunchConfiguration("config_file")])
-                            ],
-                output='screen',
-                arguments=['--ros-args', '--log-level', LaunchConfiguration('log_level')],
-                emulate_tty=True,
+                package="foxglove_bridge",
+                executable="foxglove_bridge",
+                parameters=[
+                    {"send_buffer_limit" : 10000000000}
+                ]
                 ),
         ])
