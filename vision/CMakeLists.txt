@@ -11,9 +11,10 @@ find_package(ament_cmake REQUIRED)
 # further dependencies manually.
 # find_package(cv_bridge REQUIRED)
 
+
 install(
 	DIRECTORY launch
-	DESTINATION lib/${PROJECT_NAME}
+	DESTINATION share/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
