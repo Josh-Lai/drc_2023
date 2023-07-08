@@ -55,7 +55,7 @@ def generate_launch_description():
 
     #ld.add_action(start_cam_depth_cvt)
     ld.add_action(depth_to_scan)
-    #ld.add_action(start_slam_node)
+    ld.add_action(start_slam_node)
     ld.add_action(start_scan_matcher)
     ld.add_action(cam_link);
     ld.add_action(base_footprint);
