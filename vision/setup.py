@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'laneDetection = vision.opencv_laneDetection:main', 
             'img_publisher = vision.test_img_publisher:main',
+            'cv_gui = vision.cv_test:main',
             ],
     },
 )
