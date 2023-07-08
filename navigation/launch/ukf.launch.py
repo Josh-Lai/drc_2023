@@ -36,7 +36,7 @@ def generate_launch_description():
                                            description='Path to the ROS2 parameters file to use.')
     ukf_imu = Node(
             package='robot_localization',
-            executable='ukf_node',
+            executable='ekf_node',
             name='ukf_filter_node',
             output='screen',
             parameters=[os.path.join(get_package_share_directory("navigation"), 'params', 'ukf.yaml')],
