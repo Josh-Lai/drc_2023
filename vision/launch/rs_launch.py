@@ -46,7 +46,7 @@ configurable_parameters = [{'name': 'camera_name',                  'default': '
                            {'name': 'enable_sync',                  'default': 'true', 'description': "''"},                           
                            {'name': 'align_depth.enable',           'default': 'false', 'description': "''"},                           
                            {'name': 'colorizer.enable',             'default': 'false', 'description': "''"},
-                           {'name': 'clip_distance',                'default': '1.0', 'description': "''"},                           
+                           {'name': 'clip_distance',                'default': '2.75', 'description': "''"},                           
                            {'name': 'linear_accel_cov',             'default': '0.01', 'description': "''"},                           
                            {'name': 'initial_reset',                'default': 'false', 'description': "''"},                           
                            {'name': 'allow_no_texture_points',      'default': 'false', 'description': "''"},                           
@@ -62,7 +62,7 @@ configurable_parameters = [{'name': 'camera_name',                  'default': '
                            {'name': 'depth_module.gain.1',         'default': '16', 'description': 'Initial value for hdr_merge filter'},
                            {'name': 'depth_module.exposure.2',     'default': '1', 'description': 'Initial value for hdr_merge filter'},
                            {'name': 'depth_module.gain.2',         'default': '16', 'description': 'Initial value for hdr_merge filter'},
-                           {'name': 'depth_module.enable_auto_exposure', 'default': 'false', 'description': 'enable/disable auto exposure for depth image'},
+                           {'name': 'depth_module.enable_auto_exposure', 'default': 'true', 'description': 'enable/disable auto exposure for depth image'},
                            {'name': 'depth_module.exposure',     'default': '1000', 'description': 'Initial value for hdr_merge filter'},
                            {'name': 'wait_for_device_timeout',      'default': '-1.', 'description': 'Timeout for waiting for device to connect (Seconds)'},
                            {'name': 'reconnect_timeout',            'default': '6.', 'description': 'Timeout(seconds) between consequtive reconnection attempts'},
@@ -119,12 +119,5 @@ def generate_launch_description():
                 output='screen',
                 arguments=['--ros-args', '--log-level', LaunchConfiguration('log_level')],
                 emulate_tty=True,
-                ),
-            launch_ros.actions.Node(
-                package="foxglove_bridge",
-                executable="foxglove_bridge",
-                parameters=[
-                    {"send_buffer_limit" : 10000000000}
-                ]
                 ),
         ])
