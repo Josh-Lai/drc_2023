@@ -30,9 +30,12 @@ class Detection(Node):
         self.subscription  # prevent unused variable warning
         self.bridge = CvBridge()
         self.publisher = self.create_publisher(PointCloud2, '/PUT_THE_BLOODY_NAME_NODE_HERE', 1)
-        self.blue_limits = [np.array([35, 6, 112]), np.array([155, 255, 255])]
-        self.yellow_limits = [np.array([20, 100, 100]), np.array([40, 255, 255])]
+        # self.blue_limits = [np.array([35, 6, 112]), np.array([155, 255, 255])]
+        # self.yellow_limits = [np.array([20, 100, 100]), np.array([40, 255, 255])]
         
+        self.yellow_limits = [np.array([54/2, 0, 100]), np.array([152/2, 255, 255])]
+        self.blue_limits = [np.array([186/2, 179, 131]), np.array([236/2, 255, 255])]
+
     def get_cloud(self, pc2_msg):
         pcl_data = []
         rgb_data = []
