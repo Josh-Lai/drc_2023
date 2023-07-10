@@ -27,6 +27,7 @@ setup(
             'img_publisher = vision.test_img_publisher:main',
             'mask_rgb = vision.laneMasker:main',
             'mask_depth = vision.depthMasker:main',
+            'ml_sign_detection = vision.ml_signDetection:main',
             
             ],
     },
