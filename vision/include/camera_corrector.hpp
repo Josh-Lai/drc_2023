@@ -14,6 +14,8 @@ class CameraCorrector : public rclcpp::Node {
     private:
         rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr alignedCamSub_;
         rclcpp::Publisher<sensor_msgs::msg::CameraInfo>::SharedPtr correctedCamPub_;
+
+        void correct_cam_info(sensor_msgs::msg::CameraInfo msg);
 };
 
 #endif
