@@ -59,12 +59,10 @@ class Detection(Node):
         pcl_data, rgb_data = self.get_cloud(msg)
         rgb_data = np.reshape(rgb_data, (1, len(rgb_data), 3))
         filtered_pcl = self.filter_pcl(pcl_data, rgb_data)
-        print((len(pcl_data) - len(filtered_pcl))/len(pcl_data))
-        print(filtered_pcl)
+
         fields = [PointField(name='x', offset=0, datatype=PointField.FLOAT32, count=1),
                     PointField(name='y', offset=4, datatype=PointField.FLOAT32, count=1),
                     PointField(name='z', offset=8, datatype=PointField.FLOAT32, count=1),
-                    # PointField('rgb', 12, PointField.UINT32, 1),
                     PointField(name='rgba', offset=12, datatype=PointField.UINT32, count=1)
                     ]
 
@@ -74,18 +72,14 @@ class Detection(Node):
 
         self.publisher.publish(pcl2_msg)
 
-        
     def filter_pcl(self, pcl_data, rgb_data):
         blue_mask = cv2.inRange(rgb_data, self.blue_limits[0], self.blue_limits[1])
         yellow_mask = cv2.inRange(rgb_data, self.yellow_limits[0], self.yellow_limits[1])
-        
+
         combined_mask = (yellow_mask | blue_mask).astype(np.bool_)[0]
 
-        print(combined_mask)
-        print(pcl_data)
         masked_pcl = pcl_data[np.array(combined_mask)]
-        print(masked_pcl)
-        print(np.any(combined_mask))
+
         return masked_pcl.tolist()
 
 

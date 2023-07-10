@@ -7,7 +7,8 @@ from cv_bridge import CvBridge
 import cv2
 from geometry_msgs.msg import Point
 import numpy as np
-from cv_msgs.msg import LanePixels
+from cv_msgs.msg import LaneMask
+from std_msgs.msg import Int32
 lower_yellow = np.array([20, 100, 100])
 upper_yellow = np.array([40, 255, 255])
 lower_blue = np.array([90, 100, 100])
@@ -54,18 +55,16 @@ class Detection(Node):
         super().__init__('cv_detection')
         self.i = 0
         image_topic = '/camera/color/image_raw'
-        # self.declare_parameter('image_topic', '/camera/color/image_raw')
-        # image_topic = self.get_parameter('image_topic').get_parameter_value().string_value
-        # print(image_topic)
+
         self.subscription = self.create_subscription(
             Image,
             image_topic,
             self.detection_callback,
             100)
+        self.publisher = self.create_publisher(LaneMask, '/lane_bit_mask', 1)
 
         self.subscription  # prevent unused variable warning
         self.bridge = CvBridge()
-        self.publisher = self.create_publisher(Point, '/PUT_THE_BLOODY_NAME_NODE_HERE', 10)
         self.blue_limits = [np.array([90, 100, 100]), np.array([120, 255, 255])]
         self.yellow_limits = [np.array([20, 100, 100]), np.array([40, 255, 255])]
 
@@ -73,13 +72,23 @@ class Detection(Node):
     def detection_callback(self, msg):
         self.i+=1
         cv_image = self.bridge.imgmsg_to_cv2(msg)
-        self.get_logger().info('%d Images Received' % self.i)
         cv_image = cv2.cvtColor(cv_image, cv2.COLOR_RGB2BGR )
-        self.get_lane_data(cv_image, [lower_yellow, upper_yellow], [lower_blue, upper_blue])
-        cv2.waitKey(1)
-        # self.publisher.publish(self.get_lane_data(cv_image, self.yellow_limits, self.blue_limits))
-        # cv2.imshow("image_raw", cv_image)
-        # cv2.waitKey(1)
+        mask = self.get_lane_data(cv_image, [lower_yellow, upper_yellow], [lower_blue, upper_blue])
+        msg = LaneMask()
+
+        msg.lane_mask.data = mask.flatten().tolist()
+
+        # this code aint much and its shiet, but its honest work
+        height = Int32()
+        height.data = mask.shape[0]
+        width = Int32()
+        width.data = mask.shape[1]
+
+        msg.height = height
+        msg.width = width
+
+        self.publisher.publish(msg)
+        self.get_logger().info('%d Mask Published' % self.i)
 
     # Returns the detected yellow and blue lanes within the image
     # yellow_limits/blue_limits is just a tuple of lower_hsv_range,upper_hsv_range
@@ -87,12 +96,9 @@ class Detection(Node):
         yellow_lanes =  self._find_single_lane(image, yellow_limits[0], yellow_limits[1], "yellow")
         blue_lanes = self._find_single_lane(image, blue_limits[0], blue_limits[1], "blue")
         
-        # # Float XX multi_array
-        # lane_data = LanePixels()
-        # lane_data.yellow_lane_pixels = self.convert_contour_to_points(yellow_lanes)
-        # lane_data.blue_lane_pixels = self.convert_contour_to_points(blue_lanes)
-
-        # return lane_data
+        combined_mask = yellow_lanes | blue_lanes
+        print(combined_mask.dtype)
+        return combined_mask
 
     def convert_contour_to_points(self, contour):
         point_msgs = []
@@ -112,16 +118,8 @@ class Detection(Node):
 
         # Threshold the image to obtain a mask of the lane
         mask = cv2.inRange(hsv_image, lower_thresh, upper_thresh)
-        cv2.imshow(name, mask)
 
-        # Find contours in the mask
-        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        if len(contours) > 0:
-            # Find the contour with the largest area
-            return max(contours, key=cv2.contourArea)
-        
-        return None
+        return mask
     
 
 def main(args=None):

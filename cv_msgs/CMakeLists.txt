@@ -7,7 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 if(BUILD_TESTING)
@@ -23,8 +23,8 @@ if(BUILD_TESTING)
 endif()
 
 rosidl_generate_interfaces(${PROJECT_NAME}
- "msg/LanePixels.msg"
- DEPENDENCIES geometry_msgs #Add packages that above messages depend on
+ "msg/LaneMask.msg"
+ DEPENDENCIES std_msgs #Add packages that above messages depend on
  )
 
 ament_package()
