@@ -104,7 +104,6 @@ class Detection(Node):
         combined_mask = yellow_lanes | blue_lanes
         image = cv2.bitwise_and(image, image, mask=combined_mask)
 
-        print(combined_mask.shape)
         return combined_mask
 
     def convert_contour_to_points(self, contour):

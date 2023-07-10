@@ -46,11 +46,9 @@ class DepthMasker(Node):
     def depth_callback(self, msg):
         self.i+=1
         cv_image = self.bridge.imgmsg_to_cv2(msg)
-        print(cv_image)
         
         if self.state == APPLY_MASK and len(self.mask) != 0:
-            print(self.mask.shape)
-            print(cv_image.shape)
+
             masked = cv2.bitwise_and(cv_image, cv_image, mask=self.mask)
             
             depth_msg = self.bridge.cv2_to_imgmsg(masked)
