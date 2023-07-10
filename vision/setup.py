@@ -22,8 +22,9 @@ setup(
         'console_scripts': [
             'laneDetection = vision.opencv_laneDetection:main', 
             'img_publisher = vision.test_img_publisher:main',
-            'mask_lanes = vision.laneMasker:main',
-
+            'mask_rgb = vision.laneMasker:main',
+            'mask_depth = vision.depthMasker:main',
+            
             ],
     },
 )
