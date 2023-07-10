@@ -7,15 +7,18 @@ endif()
 
 include_directories("src/" "include/")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(pcl_ros REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 add_executable(cam_to_scan src/cam_to_scan.cpp)
-ament_target_dependencies(cam_to_scan rclcpp sensor_msgs)
+ament_target_dependencies(cam_to_scan rclcpp sensor_msgs pcl_ros)
 
 install(TARGETS
     cam_to_scan
