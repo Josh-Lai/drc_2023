@@ -10,6 +10,8 @@ def generate_launch_description():
         get_package_share_directory('nav_slam'), 'config', 'depth_conversion_params.yaml')
     laser_scan_config = os.path.join(
         get_package_share_directory('nav_slam'), 'config', 'laser_match_param.yaml')
+    point_cloud_to_laserscan_config = os.path.join(
+        get_package_share_directory("nav_slam"), "config" ,"lane_points_to_scan.yaml")
 
     start_slam_node = Node(
             package="slam_toolbox",
@@ -18,11 +20,15 @@ def generate_launch_description():
             output="screen",
             parameters=[slam_params]
     )
-    start_cam_depth_cvt = Node(
-            package="nav_slam",
-            executable="cam_to_scan",
-            name="cam_to_scan"
-    )
+
+    start_lane_points_to_scan = Node(
+            package="pointcloud_to_laserscan",
+            executable="pointcloud_to_laserscan_node",
+            remappings=[
+                ("cloud_in", "lane_points"),
+                ("scan", "lane_scan")],
+            parameters=[point_cloud_to_laserscan_config],
+            name="pointcloud_to_laserscan")
     
     depth_to_scan = Node(
             package='depthimage_to_laserscan',
@@ -30,7 +36,8 @@ def generate_launch_description():
             name='depthimage_to_laserscan_node',
             remappings=[('depth', '/camera/depth/image_rect_raw'),
                         ('depth_camera_info', '/camera/depth/camera_info')],
-            parameters=[depth_to_scan_config])
+            parameters=[depth_to_scan_config],
+            output="screen")
 
     start_scan_matcher = Node(
             package="ros2_laser_scan_matcher",
@@ -59,5 +66,6 @@ def generate_launch_description():
     ld.add_action(start_scan_matcher)
     ld.add_action(cam_link);
     ld.add_action(base_footprint);
+    ld.add_action(start_lane_points_to_scan)
     return ld
 
