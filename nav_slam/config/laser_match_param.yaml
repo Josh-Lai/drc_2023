@@ -1,0 +1,8 @@
+laser_scan_matcher:
+  ros__parameters:
+    publish_odom: "odom_cam"
+    publish_tf: false
+    base_frame: "base_link"
+    odom_frame: "odom"
+    map_frame: "map"
+    laser_frame: "camera_link"
