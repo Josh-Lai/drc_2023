@@ -5,16 +5,29 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 # find dependencies
+include_directories("src/" "include/")
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+
+add_executable(camera_corrector src/camera_corrector.cpp)
+
+ament_target_dependencies(camera_corrector rclcpp sensor_msgs)
 
 install(DIRECTORY 
 	launch 
 	param
 	DESTINATION share/${PROJECT_NAME}/ 
+)
+
+install(TARGETS
+    camera_corrector
+    DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
