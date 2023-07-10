@@ -64,7 +64,7 @@ class DepthMasker(Node):
             mask = np.array(msg.lane_mask.data,dtype=np.uint8)
             
             h,w = msg.height.data, msg.width.data
-            self.mask=cv2.pyrDown(mask.reshape((h,w)))
+            self.mask=mask.reshape((h,w))
 
             self.state = APPLY_MASK
 
