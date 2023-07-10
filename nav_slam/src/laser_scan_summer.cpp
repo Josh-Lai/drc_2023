@@ -11,6 +11,8 @@ LaserScanSummer::LaserScanSummer() : rclcpp::Node("laser_scan_summer") {
     );
     
     scan3Pub_ = this->create_publisher<sensor_msgs::msg::LaserScan>("fullscan", 10);
+    scan1_ = sensor_msgs::msg::LaserScan();
+    scan2_ = sensor_msgs::msg::LaserScan();
     RCLCPP_INFO(this->get_logger(), "init laser scan summer");
     
 }
