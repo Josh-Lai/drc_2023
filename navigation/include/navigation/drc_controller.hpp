@@ -19,6 +19,11 @@ using Int32 = std_msgs::msg::Int32;
 using Twist = geometry_msgs::msg::Twist;
 using namespace std::chrono_literals;
 
+enum class lapstates {
+  FIRSTLAP,
+  NAV2MODE
+};
+
 class Controller : public rclcpp::Node
 {
 public:
