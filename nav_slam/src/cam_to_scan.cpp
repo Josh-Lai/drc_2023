@@ -11,7 +11,7 @@ CamToScan::CamToScan() : rclcpp::Node("cam_to_scan") {
     );
 
     //Send to cloud_in, to be converted to the LaserScan topic
-    cloudPub_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("cloud_in", 10);
+    cloudPub_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("/lane_points_flat", rclcpp::QoS(12).best_effort());
 }
 
 void CamToScan::point_cloud_cb(sensor_msgs::msg::PointCloud2 msg) {
