@@ -56,7 +56,7 @@ def generate_launch_description():
                     plugin='depth_image_proc::PointCloudXyzNode',
                     name='point_cloud_xyz_node',
                     remappings=[
-                                ('image_rect', '/camera/aligned_depth_to_color/image_raw'),
+                                ('image_rect', '/depth_masked'),
                                 ('camera_info', '/camera/aligned_depth_to_color/camera_info'),
                                 ('image', '/camera/aligned_depth_to_color/image_raw'),
                                 ('points', '/lane_points')]
