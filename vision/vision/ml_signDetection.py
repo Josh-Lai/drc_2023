@@ -9,12 +9,15 @@ from std_msgs.msg import String
 from cv_bridge import CvBridge
 import cv2
 import numpy as np
+from ament_index_python.packages import get_package_share_directory
 
 class SignDetection(Node): 
 
     def __init__(self):
         super().__init__("ml_sign_detection") 
-        self.model = YOLO("/home/shanker/Downloads/train2/weights/best.pt")
+
+        self.weights_path = f'{get_package_share_directory("vision")}/weights/500_epoch_best.pt' 
+        self.model = YOLO(self.weights_path)
 
         self.image_subscription = self.create_subscription( 
             Image,
