@@ -20,7 +20,7 @@ def generate_launch_description():
             output="screen",
             parameters=[slam_params]
     )
-    start_cam_depth_cvt = Node(
+    start_lane_depth_cvt = Node(
             package="nav_slam",
             executable="cam_to_scan",
             name="cam_to_scan"
@@ -64,7 +64,7 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
-    #ld.add_action(start_cam_depth_cvt)
+    ld.add_action(start_lane_depth_cvt)
     ld.add_action(depth_to_scan)
     ld.add_action(start_slam_node)
     ld.add_action(start_scan_matcher)
