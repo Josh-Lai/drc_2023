@@ -18,7 +18,7 @@ install (DIRECTORY launch params config
   DESTINATION share/${PROJECT_NAME})
 
 include_directories(include) 
-add_executable(controller src/controller.cpp) 
+add_executable(controller src/drc_controller.cpp) 
 ament_target_dependencies(controller rclcpp std_msgs geometry_msgs) 
 
 install (TARGETS controller 
