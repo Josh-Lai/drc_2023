@@ -6,6 +6,8 @@ from launch_ros.actions import Node
 def generate_launch_description():
     slam_params = os.path.join(
         get_package_share_directory("nav_slam"), "config", "slam_params.yaml")
+    slam_params_2 = os.path.join(
+        get_package_share_directory("nav_slam"), "config", "lane_slam_params.yaml")
     pointcloud_to_laser_config = os.path.join(
             get_package_share_directory("nav_slam"), "config", "lane_pointcloud_to_scan.yaml")
     depth_to_scan_config = os.path.join(
@@ -13,12 +15,21 @@ def generate_launch_description():
     laser_scan_config = os.path.join(
         get_package_share_directory('nav_slam'), 'config', 'laser_match_param.yaml')
 
-    start_slam_node = Node(
+    start_slam_depth_node = Node(
             package="slam_toolbox",
             executable="async_slam_toolbox_node", 
             name="slam_toolbox",
             output="screen",
+            remappings=[("map", "/depthmap")],
             parameters=[slam_params]
+    )
+    start_slam_lane_node = Node(
+            package="slam_toolbox",
+            executable="async_slam_toolbox_node", 
+            name="slam_toolbox",
+            output="screen",
+            remappings=[("map", "/lanemap")],
+            parameters=[slam_params_2]
     )
     start_lane_depth_cvt = Node(
             package="nav_slam",
@@ -53,6 +64,8 @@ def generate_launch_description():
             executable="laser_scan_matcher",
             name="laser_scan_matcher",
             parameters=[laser_scan_config],
+            #ODOM Updates
+            remappings=[("scan", "/depthscan")],
             output="screen")
 
 
@@ -71,7 +84,8 @@ def generate_launch_description():
 
     ld.add_action(start_lane_depth_cvt)
     ld.add_action(depth_to_scan)
-    ld.add_action(start_slam_node)
+    ld.add_action(start_slam_depth_node)
+    #ld.add_action(start_slam_lane_node)
     ld.add_action(start_scan_matcher)
     ld.add_action(cam_link)
     ld.add_action(base_footprint)

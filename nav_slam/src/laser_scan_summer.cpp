@@ -1,4 +1,5 @@
 #include "laser_scan_summer.hpp"
+#include <cmath>
 
 using std::placeholders::_1;
 LaserScanSummer::LaserScanSummer() : rclcpp::Node("laser_scan_summer") {
@@ -10,7 +11,7 @@ LaserScanSummer::LaserScanSummer() : rclcpp::Node("laser_scan_summer") {
             "/lanescan", rclcpp::QoS(5).best_effort(), std::bind(&LaserScanSummer::scan2_cb, this,_1)
     );
     
-    scan3Pub_ = this->create_publisher<sensor_msgs::msg::LaserScan>("fullscan", 10);
+    scan3Pub_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan", rclcpp::QoS(1).best_effort());
     scan1_ = sensor_msgs::msg::LaserScan();
     scan2_ = sensor_msgs::msg::LaserScan();
     RCLCPP_INFO(this->get_logger(), "init laser scan summer");
@@ -43,6 +44,7 @@ void LaserScanSummer::update_scan3(void) {
     if (numRanges == 0) {
         return;
     }
+    numRanges = 424;
     for (int i = 0; i < numRanges; i++) {
         if(std::isnan(scanFull.ranges[i])) {
             scanFull.ranges[i] = scan1_.ranges[i];
@@ -51,6 +53,7 @@ void LaserScanSummer::update_scan3(void) {
         }
 
     }
+    scanFull.ranges.push_back(std::nan(""));
     scanFull.header = scan1_.header;
     //publish the full scan
     scan3Pub_->publish(scanFull);
