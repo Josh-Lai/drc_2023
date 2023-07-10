@@ -40,8 +40,6 @@ import launch_ros.descriptions
 
 
 def generate_launch_description():
-    default_rviz = os.path.join(get_package_share_directory('depth_image_proc'),
-                                'launch', 'rviz/point_cloud_xyzrgb.rviz')
     return LaunchDescription([
         # install realsense from https://github.com/intel/ros2_intel_realsense
 
@@ -55,13 +53,11 @@ def generate_launch_description():
                 # Driver itself
                 launch_ros.descriptions.ComposableNode(
                     package='depth_image_proc',
-                    plugin='depth_image_proc::PointCloudXyzrgbNode',
-                    name='point_cloud_xyzrgb_node',
-                    remappings=[('rgb/camera_info', '/camera/color/camera_info'),
-                                ('rgb/image_rect_color', '/camera/color/image_raw'),
-                                ('depth_registered/image_rect',
-                                 '/camera/aligned_depth_to_color/image_raw'),
-                                ('points', '/camera/depth_registered/points')]
+                    plugin='depth_image_proc::PointCloudXyzNode',
+                    name='point_cloud_xyz_node',
+                    remappings=[('image_rect', '/camera/depth/image_rect_raw'),
+                                ('camera_info', '/camera/depth/camera_info'),
+                                ('image', '/camera/depth/converted_image')]
                 ),
             ],
             output='screen',
