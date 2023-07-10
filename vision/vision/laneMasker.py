@@ -9,10 +9,11 @@ from geometry_msgs.msg import Point
 import numpy as np
 from cv_msgs.msg import LaneMask
 from std_msgs.msg import Int32
-lower_yellow = np.array([20, 100, 100])
-upper_yellow = np.array([40, 255, 255])
-lower_blue = np.array([90, 100, 100])
-upper_blue = np.array([120, 255, 255])
+
+lower_yellow = np.array([20, 0, 50])
+upper_yellow = np.array([73, 255, 255])
+lower_blue = np.array([100, 146, 147])
+upper_blue = np.array([107, 255, 255])
 
 def update_values(*args):
     global lower_yellow, upper_yellow, lower_blue, upper_blue
@@ -32,12 +33,12 @@ def update_values(*args):
 class Detection(Node):
 
     def __init__(self):
-        global lower_yellow, upper_yellow, lower_blue, upper_blue
+        # global lower_yellow, upper_yellow, lower_blue, upper_blue
         # Create a window to display the trackbars
         cv2.namedWindow('Trackbars')
         cv2.createTrackbar('Y Lower H', 'Trackbars', lower_yellow[0], 255, update_values)
-        cv2.createTrackbar('Y Lower S', 'Trackbars', lower_yellow[1], 255, update_values)
-        cv2.createTrackbar('Y Lower V', 'Trackbars', lower_yellow[2], 255, update_values)
+        cv2.createTrackbar('Y Lower S', 'Trackbars', 1, 255, update_values)
+        cv2.createTrackbar('Y Lower V', 'Trackbars', 2, 255, update_values)
         cv2.createTrackbar('Y Upper H', 'Trackbars', upper_yellow[0], 255, update_values)
         cv2.createTrackbar('Y Upper S', 'Trackbars', upper_yellow[1], 255, update_values)
         cv2.createTrackbar('Y Upper V', 'Trackbars', upper_yellow[2], 255, update_values)
@@ -49,7 +50,7 @@ class Detection(Node):
         cv2.createTrackbar('B Upper S', 'Trackbars', upper_blue[1], 255, update_values)
         cv2.createTrackbar('B Upper V', 'Trackbars', upper_blue[2], 255, update_values)
 
-        update_values()
+        # update_values()
 
 
         super().__init__('cv_detection')
