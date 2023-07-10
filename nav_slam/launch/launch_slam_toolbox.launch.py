@@ -25,6 +25,11 @@ def generate_launch_description():
             executable="cam_to_scan",
             name="cam_to_scan"
     )
+    start_scan = Node(
+            package="nav_slam",
+            executable="laser_scan_summer",
+            name="laser_scan_summer"
+    )
     
     depth_to_scan = Node(
             package='depthimage_to_laserscan',
@@ -71,5 +76,6 @@ def generate_launch_description():
     ld.add_action(cam_link)
     ld.add_action(base_footprint)
     ld.add_action(lane_pointcloud_to_scan)
+    ld.add_action(start_scan)
     return ld
 
