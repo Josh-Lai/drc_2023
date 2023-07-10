@@ -20,6 +20,8 @@ class LaserScanSummer : public rclcpp::Node {
         // When I recieve  a point cloud sum up the points
         void scan2_cb(sensor_msgs::msg::LaserScan msg);
 
+        void update_scan3(void);
+
         sensor_msgs::msg::LaserScan scan1_; //Fast
         sensor_msgs::msg::LaserScan scan2_; //Slow
 
