@@ -4,7 +4,7 @@
   <name>vision</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="dshanker134@gmail.com">shanker</maintainer>
+  <maintainer email="joshua.lai@pumpkineng.com.au">josh</maintainer>
   <license>TODO: License declaration</license>
 
   <test_depend>ament_copyright</test_depend>

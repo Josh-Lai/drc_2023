@@ -9,12 +9,12 @@ endif()
 find_package(ament_cmake REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
-# find_package(cv_bridge REQUIRED)
+# find_package(<dependency> REQUIRED)
 
-
-install(
-	DIRECTORY launch
-	DESTINATION share/${PROJECT_NAME}
+install(DIRECTORY 
+	launch 
+	param
+	DESTINATION share/${PROJECT_NAME}/ 
 )
 
 if(BUILD_TESTING)
