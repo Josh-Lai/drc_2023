@@ -6,7 +6,7 @@ pointcloud_to_laserscan:
     max_height: 0.2
     angle_min: -0.7738267183303833 # -M_PI/2
     angle_max: 0.775675356388092 # M_PI/2
-    angle_increment: 0.003663125680759549 # M_PI/360.0
+    angle_increment: 0.003653125680759549 # M_PI/360.0
     scan_time: 0.033
     range_min: 0.45
     range_max: 10.0
