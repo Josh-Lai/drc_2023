@@ -10,10 +10,10 @@ import numpy as np
 from cv_msgs.msg import LaneMask
 from std_msgs.msg import Int32
 
-lower_yellow = np.array([20, 0, 50])
-upper_yellow = np.array([73, 255, 255])
-lower_blue = np.array([100, 146, 147])
-upper_blue = np.array([107, 255, 255])
+lower_yellow = np.array([0, 0, 0])
+upper_yellow = np.array([0, 0, 0])
+lower_blue = np.array([0, 0, 0])
+upper_blue = np.array([0, 0, 0])
 
 def update_values(*args):
     global lower_yellow, upper_yellow, lower_blue, upper_blue
@@ -36,19 +36,19 @@ class Detection(Node):
         # global lower_yellow, upper_yellow, lower_blue, upper_blue
         # Create a window to display the trackbars
         cv2.namedWindow('Trackbars')
-        cv2.createTrackbar('Y Lower H', 'Trackbars', lower_yellow[0], 255, update_values)
-        cv2.createTrackbar('Y Lower S', 'Trackbars', 1, 255, update_values)
-        cv2.createTrackbar('Y Lower V', 'Trackbars', 2, 255, update_values)
-        cv2.createTrackbar('Y Upper H', 'Trackbars', upper_yellow[0], 255, update_values)
-        cv2.createTrackbar('Y Upper S', 'Trackbars', upper_yellow[1], 255, update_values)
-        cv2.createTrackbar('Y Upper V', 'Trackbars', upper_yellow[2], 255, update_values)
+        cv2.createTrackbar('Y Lower H', 'Trackbars', 20, 255, update_values)
+        cv2.createTrackbar('Y Lower S', 'Trackbars', 0, 255, update_values)
+        cv2.createTrackbar('Y Lower V', 'Trackbars', 50, 255, update_values)
+        cv2.createTrackbar('Y Upper H', 'Trackbars', 73, 255, update_values)
+        cv2.createTrackbar('Y Upper S', 'Trackbars', 255, 255, update_values)
+        cv2.createTrackbar('Y Upper V', 'Trackbars', 255, 255, update_values)
 
-        cv2.createTrackbar('B Lower H', 'Trackbars', lower_blue[0], 255, update_values)
-        cv2.createTrackbar('B Lower S', 'Trackbars', lower_blue[1], 255, update_values)
-        cv2.createTrackbar('B Lower V', 'Trackbars', lower_blue[2], 255, update_values)
-        cv2.createTrackbar('B Upper H', 'Trackbars', upper_blue[0], 255, update_values)
-        cv2.createTrackbar('B Upper S', 'Trackbars', upper_blue[1], 255, update_values)
-        cv2.createTrackbar('B Upper V', 'Trackbars', upper_blue[2], 255, update_values)
+        cv2.createTrackbar('B Lower H', 'Trackbars', 100, 255, update_values)
+        cv2.createTrackbar('B Lower S', 'Trackbars', 146, 255, update_values)
+        cv2.createTrackbar('B Lower V', 'Trackbars', 147, 255, update_values)
+        cv2.createTrackbar('B Upper H', 'Trackbars', 107, 255, update_values)
+        cv2.createTrackbar('B Upper S', 'Trackbars', 255, 255, update_values)
+        cv2.createTrackbar('B Upper V', 'Trackbars', 255, 255, update_values)
 
         # update_values()
 

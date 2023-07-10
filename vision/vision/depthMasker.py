@@ -53,8 +53,9 @@ class DepthMasker(Node):
             print(cv_image.shape)
             masked = cv2.bitwise_and(cv_image, cv_image, mask=self.mask)
             
-            msg = self.bridge.cv2_to_imgmsg(masked)
-            self.publisher.publish(msg)
+            depth_msg = self.bridge.cv2_to_imgmsg(masked)
+            depth_msg.header = msg.header 
+            self.publisher.publish(depth_msg)
             
             self.state = RECEIVE_MASK
 
