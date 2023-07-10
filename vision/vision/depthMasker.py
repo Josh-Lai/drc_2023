@@ -19,12 +19,12 @@ class DepthMasker(Node):
         global lower_yellow, upper_yellow, lower_blue, upper_blue
         # Create a window to display the trackbars
 
-        super().__init__('cv_detection')
+        super().__init__('cv_detection_2')
         self.i = 0
         self.state = RECEIVE_MASK
         self.depth_subscriber = self.create_subscription(
             Image,
-            '/camera/depth/image_rect_raw',
+            '/camera/aligned_depth_to_color/image_raw',
             self.depth_callback,
             100)
         self.mask = np.array([])
