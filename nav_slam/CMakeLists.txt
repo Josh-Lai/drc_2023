@@ -20,8 +20,12 @@ find_package(pcl_ros REQUIRED)
 add_executable(cam_to_scan src/cam_to_scan.cpp)
 ament_target_dependencies(cam_to_scan rclcpp sensor_msgs pcl_ros)
 
+add_executable(laser_scan_summer src/laser_scan_summer.cpp)
+ament_target_dependencies(laser_scan_summer rclcpp sensor_msgs)
+
 install(TARGETS
     cam_to_scan
+    laser_scan_summer
     DESTINATION lib/${PROJECT_NAME}
 )
 
