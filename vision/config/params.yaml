@@ -1,0 +1,3 @@
+cv_detection:
+  ros__parameters:
+    image_topic: "/camera/color/image_raw"
