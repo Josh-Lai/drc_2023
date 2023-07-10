@@ -89,15 +89,17 @@ class Detection(Node):
 
         self.publisher.publish(msg)
         self.get_logger().info('%d Mask Published' % self.i)
-
+        cv2.waitKey(1)  
+        
     # Returns the detected yellow and blue lanes within the image
     # yellow_limits/blue_limits is just a tuple of lower_hsv_range,upper_hsv_range
     def get_lane_data(self, image, yellow_limits, blue_limits):
         yellow_lanes =  self._find_single_lane(image, yellow_limits[0], yellow_limits[1], "yellow")
         blue_lanes = self._find_single_lane(image, blue_limits[0], blue_limits[1], "blue")
-        
+        cv2.imshow("yellow", yellow_lanes)
+        cv2.imshow("blue", blue_lanes)
+        cv2.imshow("orig", image)
         combined_mask = yellow_lanes | blue_lanes
-        print(combined_mask.dtype)
         return combined_mask
 
     def convert_contour_to_points(self, contour):
